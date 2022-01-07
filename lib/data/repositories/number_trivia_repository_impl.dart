@@ -11,7 +11,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   late NumberTriviaRemoteDataSource remoteDataSource;
   late NumberTriviaLocalDataSource localDataSource;
   late NetworkInfo networkInfo;
-  
+
   NumberTriviaRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
@@ -19,9 +19,9 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   });
 
   @override
-  Future<Either<Failure, NumberTrivia>> getConcreteNumber(int number) {
-    // TODO: implement getConcreteNumber
-    throw UnimplementedError();
+  Future<Either<Failure, NumberTrivia>> getConcreteNumber(int number) async {
+    networkInfo.isConnected;
+    return Right(await remoteDataSource.getConcreteNumberTrivia(number));
   }
 
   @override
