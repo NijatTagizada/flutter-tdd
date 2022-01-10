@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../models/number_trivia_model.dart';
+import 'package:dio/dio.dart';
 
 import '../../core/error/exceptions.dart';
 import '../../core/error/failures.dart';
@@ -8,6 +8,7 @@ import '../../domain/entities/number_trivia.dart';
 import '../../domain/repositories/number_trivia_repository.dart';
 import '../datasources/number_trivia_local_data_source.dart';
 import '../datasources/number_trivia_remote_data_source.dart';
+import '../models/number_trivia_model.dart';
 
 typedef _ConcreteOrRandomChooser = Future<NumberTriviaModel> Function();
 
@@ -42,10 +43,12 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     if (await networkInfo.isConnected) {
       try {
         NumberTriviaModel remoteTrivia = await getConcreteOrRandom();
+
+        //store data
         localDataSource.cacheNumberTrivia(remoteTrivia);
 
         return Right(remoteTrivia);
-      } on ServerException {
+      } on DioError {
         return Left(ServerFailure());
       }
     } else {

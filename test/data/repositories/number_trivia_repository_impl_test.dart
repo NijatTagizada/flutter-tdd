@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_tdd/core/error/exceptions.dart';
 import 'package:flutter_tdd/core/error/failures.dart';
 import 'package:flutter_tdd/core/network/network_info.dart';
@@ -24,6 +25,7 @@ void main() {
   late MockNumberTriviaRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
   late MockNumberTriviaLocalDataSource mockLocalDataSource;
+  final requestOpt = RequestOptions(path: 'test');
 
   setUp(() {
     mockRemoteDataSource = MockNumberTriviaRemoteDataSource();
@@ -107,7 +109,7 @@ void main() {
           'should return server failure when the call to remote data source is unsuccessful',
           () async {
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
-            .thenThrow(ServerException());
+            .thenThrow(DioError(requestOptions: requestOpt));
 
         final result = await repository.getConcreteNumber(tNumber);
 
@@ -197,7 +199,7 @@ void main() {
           'should return server failure when the call to remote data source is unsuccessful',
           () async {
         when(mockRemoteDataSource.getRandomNumberTrivia())
-            .thenThrow(ServerException());
+            .thenThrow(DioError(requestOptions: requestOpt));
 
         final result = await repository.getRandomNumber();
 
