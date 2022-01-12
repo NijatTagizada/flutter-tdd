@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_tdd/core/utils/input_converter.dart';
-import 'package:flutter_tdd/domain/entities/number_trivia.dart';
 import 'package:flutter_tdd/domain/usecases/get_concrete_number.dart';
 import 'package:flutter_tdd/domain/usecases/get_random_number.dart';
 import 'package:flutter_tdd/presentation/bloc/number_trivia/number_trivia_cubit.dart';
