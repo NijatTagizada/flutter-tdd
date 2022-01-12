@@ -10,9 +10,9 @@ import '../../../domain/usecases/get_random_number.dart';
 
 part 'number_trivia_state.dart';
 
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
-const String INVALID_INPUT_FAILURE_MESSAGE =
+const String serverFailureMessage = 'Server Failure';
+const String cacheFailureMessage = 'Cache Failure';
+const String invalidInputFailureMessage =
     'Invalid Input - The number must be a positive integer or zero.';
 
 class NumberTriviaCubit extends Cubit<NumberTriviaState> {
@@ -26,10 +26,10 @@ class NumberTriviaCubit extends Cubit<NumberTriviaState> {
   final GetRandomNumber getRandomNumber;
   final InputConverter inputConverter;
 
-  Future<void> getTriviaNumberConcrete(String number) async {
+  void getTriviaNumberConcrete(String number) {
     final inputEither = inputConverter.stringToUnsignedInteger(number);
     inputEither.fold(
-      (l) => emit(const Error(message: INVALID_INPUT_FAILURE_MESSAGE)),
+      (l) => emit(const Error(message: invalidInputFailureMessage)),
       (integer) => Right(integer),
     );
   }

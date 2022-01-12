@@ -22,15 +22,17 @@ main() {
   late MockGetConcreteNumber mockGetConcreteNumber;
   late MockInputConverter mockInputConverter;
 
-  mockInputConverter = MockInputConverter();
-  mockGetConcreteNumber = MockGetConcreteNumber();
-  mockGetRandomNumber = MockGetRandomNumber();
+  setUp(() {
+    mockInputConverter = MockInputConverter();
+    mockGetConcreteNumber = MockGetConcreteNumber();
+    mockGetRandomNumber = MockGetRandomNumber();
 
-  bloc = NumberTriviaCubit(
-    getConcreteNumber: mockGetConcreteNumber,
-    getRandomNumber: mockGetRandomNumber,
-    inputConverter: mockInputConverter,
-  );
+    bloc = NumberTriviaCubit(
+      getConcreteNumber: mockGetConcreteNumber,
+      getRandomNumber: mockGetRandomNumber,
+      inputConverter: mockInputConverter,
+    );
+  });
 
   test('initialState should be Empty', () {
     // assert
@@ -40,25 +42,10 @@ main() {
   group('GetTriviaForConcreteNumber', () {
     const tNumberString = '1';
     const tNumberPased = 1;
-    const tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
-
-    // test(
-    //   'should call the InputConverter to validate and convert the string to an unsigned integer',
-    //   () async {
-    //     when(mockInputConverter.stringToUnsignedInteger(any)).thenReturn(
-    //       const Right(tNumberPased),
-    //     );
-
-    //     bloc.getTriviaNumberConcrete(tNumberString);
-
-    //     await untilCalled(mockInputConverter.stringToUnsignedInteger(any));
-
-    //     verify(mockInputConverter.stringToUnsignedInteger(tNumberString));
-    //   },
-    // );
+    //const tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
 
     blocTest<NumberTriviaCubit, NumberTriviaState>(
-      'should emit [Error] when the input is invalid',
+      'should call the InputConverter to validate and convert the string to an unsigned integer',
       build: () => bloc,
       setUp: () {
         when(mockInputConverter.stringToUnsignedInteger(any)).thenReturn(
@@ -71,17 +58,18 @@ main() {
       },
     );
 
-    // test('should emit [Error] when the input is invalid', () {
-    //   when(mockInputConverter.stringToUnsignedInteger(any))
-    //       .thenReturn(Left(InvalidInputFailure()));
-
-    //   final expexted = [
-    //     Empty(),
-    //     const Error(message: INVALID_INPUT_FAILURE_MESSAGE),
-    //   ];
-
-    //   bloc.getTriviaNumberConcrete(tNumberString);
-    //   expectLater(bloc.stream, emitsInOrder(expexted));
-    // });
+    blocTest<NumberTriviaCubit, NumberTriviaState>(
+      'should emit [Error] when the input is invalid',
+      setUp: () {
+        when(mockInputConverter.stringToUnsignedInteger(any)).thenReturn(
+          Left(InvalidInputFailure()),
+        );
+      },
+      build: () => bloc,
+      act: (_) => bloc.getTriviaNumberConcrete('fw23'),
+      expect: () => [
+        const Error(message: invalidInputFailureMessage),
+      ],
+    );
   });
 }
