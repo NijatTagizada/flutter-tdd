@@ -23,7 +23,7 @@ class _NumberTriviaRemoteDataSourceImpl
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NumberTriviaModel>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '{number}?json',
+                .compose(_dio.options, '${number}?json',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = NumberTriviaModel.fromJson(_result.data!);

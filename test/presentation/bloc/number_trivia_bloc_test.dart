@@ -43,7 +43,7 @@ main() {
   group('GetTriviaForConcreteNumber', () {
     const tNumberString = '1';
     const tNumberParsed = 1;
-    const tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
+    final tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
 
     void setUpMockInputConverterSuccess() =>
         when(mockInputConverter.stringToUnsignedInteger(any))
@@ -54,7 +54,7 @@ main() {
       setUp: () {
         setUpMockInputConverterSuccess();
         when(mockGetConcreteNumber(any)).thenAnswer(
-          (_) async => const Right(tNumberTrivia),
+          (_) async => Right(tNumberTrivia),
         );
       },
       act: (cubit) => bloc.getTriviaNumberConcrete(tNumberString),
@@ -85,7 +85,7 @@ main() {
         setUpMockInputConverterSuccess();
 
         when(mockGetConcreteNumber(any)).thenAnswer(
-          (_) async => const Right(tNumberTrivia),
+          (_) async => Right(tNumberTrivia),
         );
       },
       verify: (bloc) {
@@ -100,13 +100,13 @@ main() {
       setUp: () {
         setUpMockInputConverterSuccess();
         when(mockGetConcreteNumber(any)).thenAnswer(
-          (_) async => const Right(tNumberTrivia),
+          (_) async => Right(tNumberTrivia),
         );
       },
       act: (_) => bloc.getTriviaNumberConcrete(tNumberString),
       expect: () => [
         Loading(),
-        const Loaded(trivia: tNumberTrivia),
+        Loaded(trivia: tNumberTrivia),
       ],
     );
 
@@ -144,10 +144,9 @@ main() {
   });
 
   group('GetRandomTriviaNumber', () {
-    const tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
+    final tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
 
-    
-    //TODO 
+    //TODO
     // blocTest<NumberTriviaCubit, NumberTriviaState>(
     //   'should get data from the random use case',
     //   build: () => bloc,
@@ -167,13 +166,13 @@ main() {
       build: () => bloc,
       setUp: () {
         when(mockGetRandomNumber(any)).thenAnswer(
-          (_) async => const Right(tNumberTrivia),
+          (_) async => Right(tNumberTrivia),
         );
       },
       act: (_) => bloc.getRandomNumberTrivia(),
       expect: () => [
         Loading(),
-        const Loaded(trivia: tNumberTrivia),
+        Loaded(trivia: tNumberTrivia),
       ],
     );
 

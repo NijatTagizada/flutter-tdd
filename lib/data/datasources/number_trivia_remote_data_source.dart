@@ -25,7 +25,7 @@ abstract class NumberTriviaRemoteDataSourceImpl
 
   @GET('{number}?json')
   @override
-  Future<NumberTriviaModel> getConcreteNumberTrivia(int number);
+  Future<NumberTriviaModel> getConcreteNumberTrivia(@Path('number') int number);
 
   @GET('random?json')
   @override

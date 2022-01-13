@@ -11,7 +11,7 @@ void main() {
   late GetRandomNumber usecase;
   late MockNumberTriviaRepository mockNumberTriviaRepository;
 
-  const tNumberTrivia = NumberTrivia(number: 1, text: 'test');
+  final tNumberTrivia = NumberTrivia(number: 1, text: 'test');
 
   setUp(() {
     mockNumberTriviaRepository = MockNumberTriviaRepository();
@@ -20,10 +20,10 @@ void main() {
 
   test('get random trivia from the repository', () async {
     when(mockNumberTriviaRepository.getRandomNumber())
-        .thenAnswer((_) async => const Right(tNumberTrivia));
+        .thenAnswer((_) async => Right(tNumberTrivia));
 
     final result = await usecase(NoParams());
-    expect(result, const Right(tNumberTrivia));
+    expect(result, Right(tNumberTrivia));
     verify(mockNumberTriviaRepository.getRandomNumber());
     verifyNoMoreInteractions(mockNumberTriviaRepository);
   });

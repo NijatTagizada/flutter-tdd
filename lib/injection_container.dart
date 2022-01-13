@@ -55,6 +55,7 @@ Future<void> init() async {
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerLazySingleton(() => sharedPreferences);
-  di.registerLazySingleton(() => Dio());
+  di.registerLazySingleton(
+      () => Dio()..options.baseUrl = 'http://numbersapi.com/');
   di.registerLazySingleton(() => Connectivity());
 }
