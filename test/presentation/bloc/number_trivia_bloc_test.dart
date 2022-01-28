@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_tdd/core/error/failures.dart';
+import 'package:flutter_tdd/core/usecases/usecase.dart';
 import 'package:flutter_tdd/core/utils/input_converter.dart';
 import 'package:flutter_tdd/domain/entities/number_trivia.dart';
 import 'package:flutter_tdd/domain/usecases/get_concrete_number.dart';
@@ -146,20 +147,19 @@ main() {
   group('GetRandomTriviaNumber', () {
     final tNumberTrivia = NumberTrivia(text: 'Test trivia', number: 1);
 
-    //TODO
-    // blocTest<NumberTriviaCubit, NumberTriviaState>(
-    //   'should get data from the random use case',
-    //   build: () => bloc,
-    //   act: (bloc) => bloc.getRandomNumberTrivia(),
-    //   setUp: () {
-    //     when(mockGetRandomNumber.call(any)).thenAnswer(
-    //       (_) async => const Right(tNumberTrivia),
-    //     );
-    //   },
-    //   verify: (bloc) {
-    //     verify(mockGetRandomNumber.call((NoParams())));
-    //   },
-    // );
+    blocTest<NumberTriviaCubit, NumberTriviaState>(
+      'should get data from the random use case',
+      build: () => bloc,
+      act: (bloc) => bloc.getRandomNumberTrivia(),
+      setUp: () {
+        when(mockGetRandomNumber.call(any)).thenAnswer(
+          (_) async => Right(tNumberTrivia),
+        );
+      },
+      verify: (bloc) {
+        verify(mockGetRandomNumber.call((NoParams())));
+      },
+    );
 
     blocTest(
       'should emit [Loading, Loaded] when data is gotten successfully',
